@@ -1,0 +1,78 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:  # 允许手动触发
+# 设置Pages部署权限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  # 确保同时只有一个部署在运行
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+
+jobs:
+  # 构建和测试作业
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]  # 简化为单个版本，部署用
+        # 如果需要多版本测试，可以保留 [18.x, 20.x, 22.x]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'  # 如果用pnpm改为'pnpm'
+
+    - name: Install dependencies
+      run: npm ci  # 如果用pnpm改为'pnpm install --frozen-lockfile'
+
+    - name: Run linter (if present)
+      run: npm run lint --if-present
+
+    - name: Run tests (if present)
+      run: npm test --if-present
+
+    - name: Build for production
+      run: npm run build  # 如果用pnpm改为'pnpm run build'
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+      if: github.ref == 'refs/heads/main'  # 只在main分支配置Pages
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      if: github.ref == 'refs/heads/main'  # 只在main分支上传
+      with:
+        path: './dist'  # Vue构建输出目录
+
+  # 部署作业（只在main分支推送时运行）
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
