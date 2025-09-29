@@ -49,10 +49,20 @@ jobs:
       run: pnpm install --frozen-lockfile
 
     - name: Run linter (if present)
-      run: pnpm run lint --if-present
+      run: |
+        if pnpm run --silent lint --help >/dev/null 2>&1; then
+          pnpm run lint
+        else
+          echo "No lint script found, skipping..."
+        fi
 
     - name: Run tests (if present)
-      run: pnpm test --if-present
+      run: |
+        if pnpm run --silent test --help >/dev/null 2>&1; then
+          pnpm run test
+        else
+          echo "No test script found, skipping..."
+        fi
 
     - name: Build for production
       run: pnpm run build
