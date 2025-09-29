@@ -65,7 +65,7 @@ jobs:
         fi
 
     - name: Build for production
-      run: pnpm run build
+      run: VITE_BASE_PATH=/config-formatter/ pnpm run build
 
     - name: Setup Pages
       uses: actions/configure-pages@v4
