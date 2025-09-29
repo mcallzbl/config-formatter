@@ -18,42 +18,42 @@
 - Node.js 版本：`^20.19.0 || >=22.12.0`
 - 依赖安装：
 ```sh
-npm install
+pnpm install
 ```
 
 ### 本地开发
 ```sh
-npm run dev
+pnpm run dev
 ```
 
 ### 构建与预览（部署）
 ```sh
 # 产出到 dist/
-npm run build
+pnpm run build
 
 # 本地预览生产包
-npm run preview
+pnpm run preview
 ```
 部署到任意静态资源服务器（Nginx、Apache、静态对象存储等）时，将 `dist/` 目录内容作为站点根目录即可。
 
 ### 测试
 - 单元测试（Vitest）
 ```sh
-npm run test:unit
+pnpm run test:unit
 ```
 - 端到端测试（Playwright）（首次需安装浏览器）：
 ```sh
-npx playwright install
-npm run test:e2e
+pnpm playwright install
+pnpm run test:e2e
 ```
 
 ### 代码质量
 ```sh
 # ESLint / Oxlint / Prettier（组合命令）
-npm run lint
+pnpm run lint
 
 # 仅格式化 src/
-npm run format
+pnpm run format
 ```
 
 ### 使用说明（界面）
