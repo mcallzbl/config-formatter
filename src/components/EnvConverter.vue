@@ -19,8 +19,16 @@ const canRightToLeft = computed(() => rightText.value.trim().length > 0)
 
 function handleSwapFormats() {
   const lf = leftFormat.value
-  leftFormat.value = rightFormat.value
-  rightFormat.value = lf
+  const rf = rightFormat.value
+  
+  // 只在兼容的格式之间交换
+  if (lf === 'compose' || rf === 'spring-yaml' || rf === 'spring-properties' || rf === 'spring-env') {
+    return // 不支持这些格式的交换
+  }
+  
+  // 只有当双方都是 EnvFormat 时才能交换
+  leftFormat.value = rf as LeftFormat
+  rightFormat.value = lf as RightFormat
 }
 
 function doConvert(direction: Side) {
