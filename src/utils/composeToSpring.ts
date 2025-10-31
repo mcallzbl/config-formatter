@@ -30,8 +30,7 @@ function parseEnvList(lines: string[], startIndex: number): Record<string, strin
     if (eqIndex === -1) continue
     const key = m.slice(0, eqIndex).trim()
     const rawVal = m.slice(eqIndex + 1).trim()
-    const val = rawVal.replace(/^"|"$/g, '').replace(/^'|'$/g, '')
-    env[key] = val
+    env[key] = rawVal.replace(/^"|"$/g, '').replace(/^'|'$/g, '')
   }
   return env
 }

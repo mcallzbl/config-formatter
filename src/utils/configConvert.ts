@@ -60,7 +60,7 @@ export function parseProperties(text: string): ConfigProperty[] {
 
     // 解析新的property
     const key = line.slice(0, equalIndex).trim()
-    let value = line.slice(equalIndex + 1)
+    const value = line.slice(equalIndex + 1)
 
     // 检查是否以续行符结尾
     if (value.endsWith('\\')) {
