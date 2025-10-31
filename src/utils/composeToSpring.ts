@@ -36,7 +36,10 @@ function parseEnvList(lines: string[], startIndex: number): Record<string, strin
   return env
 }
 
-function parsePortsList(lines: string[], startIndex: number): Array<{ host: number; container: number }> {
+function parsePortsList(
+  lines: string[],
+  startIndex: number,
+): Array<{ host: number; container: number }> {
   const ports: Array<{ host: number; container: number }> = []
   for (let i = startIndex; i < lines.length; i++) {
     const line = lines[i].trim()
@@ -74,7 +77,7 @@ export function parseComposeToServiceConfig(text: string): SpringServiceConfig {
         }
         if (/^ports:/i.test(tj)) {
           const ports = parsePortsList(lines, j + 1)
-          const m = ports.find(p => p.container === 3306) || ports[0]
+          const m = ports.find((p) => p.container === 3306) || ports[0]
           if (m) hostPort = m.host
         }
       }
@@ -96,7 +99,7 @@ export function parseComposeToServiceConfig(text: string): SpringServiceConfig {
         if (/^image:/i.test(tj)) break
         if (/^ports:/i.test(tj)) {
           const ports = parsePortsList(lines, j + 1)
-          const m = ports.find(p => p.container === 6379) || ports[0]
+          const m = ports.find((p) => p.container === 6379) || ports[0]
           if (m) hostPort = m.host
         }
       }
@@ -182,5 +185,3 @@ export function composeToSpring(text: string, out: SpringOutput): string {
       return toSpringEnv(config)
   }
 }
-
-

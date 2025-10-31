@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { convert, parseToPairs, generateFromPairs } from '@/utils/envConvert'
+import { describe, expect, it } from 'vitest'
+import { convert, generateFromPairs, parseToPairs } from '@/utils/envConvert'
 
 describe('envConvert', () => {
   it('idea -> dotenv with spaces quoted', () => {
@@ -32,5 +32,3 @@ describe('envConvert', () => {
     expect(regenerated).toContain('E="contains \\"quote\\""')
   })
 })
-
-

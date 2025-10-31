@@ -1,5 +1,10 @@
-import { describe, it, expect } from 'vitest'
-import { parseComposeToServiceConfig, toSpringYaml, toSpringProperties, toSpringEnv } from '@/utils/composeToSpring'
+import { describe, expect, it } from 'vitest'
+import {
+  parseComposeToServiceConfig,
+  toSpringEnv,
+  toSpringProperties,
+  toSpringYaml,
+} from '@/utils/composeToSpring'
 
 const composeSnippet = `
     user-mysql:
@@ -52,5 +57,3 @@ describe('composeToSpring', () => {
     expect(e).toContain('SPRING_DATASOURCE_URL=jdbc:mysql://localhost:33306/user')
   })
 })
-
-
