@@ -21,7 +21,7 @@ describe('envConvert', () => {
   })
 
   it('parse and regenerate roundtrip for dotenv', () => {
-    const input = 'A=1\nB=two words\nC="x y"\nD=\'q\'\nE="contains \"quote\""'
+    const input = 'A=1\nB=two words\nC="x y"\nD=\'q\'\nE="contains "quote""'
     const pairs = parseToPairs(input, 'dotenv')
     const regenerated = generateFromPairs(pairs, 'dotenv')
     expect(regenerated).toContain('A=1')

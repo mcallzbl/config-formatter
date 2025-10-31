@@ -182,7 +182,7 @@ export function generateProperties(properties: ConfigProperty[]): string {
  * 将点号分隔的键转换为嵌套的YAML结构
  */
 export function generateYaml(properties: ConfigProperty[]): string {
-  const root: any = {}
+  const root: Record<string, unknown> = {}
 
   // 构建嵌套对象结构
   for (const prop of properties) {
@@ -194,7 +194,7 @@ export function generateYaml(properties: ConfigProperty[]): string {
       if (!current[key]) {
         current[key] = {}
       }
-      current = current[key]
+      current = current[key] as Record<string, unknown>
     }
 
     current[keys[keys.length - 1]] = prop.value
@@ -207,7 +207,7 @@ export function generateYaml(properties: ConfigProperty[]): string {
 /**
  * 递归将对象转换为YAML字符串
  */
-function yamlStringify(obj: any, indent: number): string {
+function yamlStringify(obj: Record<string, unknown>, indent: number): string {
   const spaces = '  '.repeat(indent)
   const lines: string[] = []
 
@@ -218,7 +218,7 @@ function yamlStringify(obj: any, indent: number): string {
   for (const [key, value] of Object.entries(obj)) {
     if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
       lines.push(`${spaces}${key}:`)
-      lines.push(yamlStringify(value, indent + 1))
+      lines.push(yamlStringify(value as Record<string, unknown>, indent + 1))
     } else {
       let strValue = String(value)
       // 如果值包含特殊字符（除了字母、数字、空格、点、短横线），用引号包裹

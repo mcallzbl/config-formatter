@@ -84,7 +84,7 @@ const availableLeftFormats = computed(() => {
 })
 
 // 当左侧格式改变时，如果当前右侧格式不在可用列表中，自动选择第一个可用格式
-watch(leftFormat, (newLeftFormat) => {
+watch(leftFormat, () => {
   const currentRightFormat = rightFormat.value
   const availableFormats = availableRightFormats.value.map((f) => f.value)
 
@@ -95,7 +95,7 @@ watch(leftFormat, (newLeftFormat) => {
 })
 
 // 当右侧格式改变时，检查左侧格式是否兼容
-watch(rightFormat, (newRightFormat) => {
+watch(rightFormat, () => {
   const currentLeftFormat = leftFormat.value
   const availableFormats = availableLeftFormats.value.map((f) => f.value)
 
